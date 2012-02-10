@@ -7,6 +7,7 @@ from gevent.queue import Queue
 from jinja2 import Environment, FileSystemLoader
 
 urls = ('/long', 'long_polling',
+        '/queue', 'queue',
         '/.*', 'index')
 
 jinja_env = Environment(
@@ -26,6 +27,11 @@ class index:
         user_data = web.input()
         message_queue.put(user_data['message'])
         return web.seeother('/')
+
+class queue:
+
+    def GET(self):
+        return ' '.join(list(message_queue.queue))
 
 class long_polling:
 
